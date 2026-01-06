@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday My Love 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #4a0e0e 0%, #7d1935 50%, #5c0f1f 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(139, 69, 86, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(128, 0, 32, 0.3) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(74, 14, 14, 0.9);
+            border: 2px solid #d4af37;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .music-control:hover {
+            transform: scale(1.1);
+            background: rgba(125, 25, 53, 0.9);
+        }
+        
+        .music-control svg {
+            width: 24px;
+            height: 24px;
+            fill: #d4af37;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 700px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .countdown-timer {
+            background: linear-gradient(135deg, rgba(74, 14, 14, 0.95), rgba(125, 25, 53, 0.95));
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            animation: fadeIn 0.8s ease;
+        }
+        
+        .countdown-title {
+            color: #f5e6d3;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+        
+        .countdown-display {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .countdown-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            min-width: 80px;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+        }
+        
+        .countdown-number {
+            font-size: 2.5em;
+            color: #d4af37;
+            font-weight: bold;
+            display: block;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+        
+        .countdown-label {
+            color: #f5e6d3;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+        
+        .lock-screen {
+            background: linear-gradient(135deg, rgba(74, 14, 14, 0.98), rgba(92, 15, 31, 0.98));
+            padding: 50px 40px;
+            border-radius: 25px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .lock-screen h1 {
+            color: #d4af37;
+            margin-bottom: 15px;
+            font-size: 2.5em;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.4);
+        }
+        
+        .lock-screen p {
+            color: #f5e6d3;
+            margin-bottom: 35px;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .lock-screen input {
+            width: 100%;
+            padding: 18px 20px;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            border-radius: 15px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.3);
+            color: #f5e6d3;
+            font-family: inherit;
+        }
+        
+        .lock-screen input::placeholder {
+            color: rgba(245, 230, 211, 0.5);
+        }
+        
+        .lock-screen input:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .lock-screen button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #7d1935, #9b2847);
+            color: #f5e6d3;
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: inherit;
+        }
+        
+        .lock-screen button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            background: linear-gradient(135deg, #9b2847, #7d1935);
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            margin-top: 15px;
+            font-size: 15px;
+            display: none;
+            text-shadow: 0 2px 5px rgba(255, 107, 107, 0.3);
+        }
+        
+        .main-content {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        .birthday-card {
+            background: linear-gradient(135deg, rgba(74, 14, 14, 0.95), rgba(92, 15, 31, 0.95));
+            padding: 50px 40px;
+            border-radius: 25px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            margin-bottom: 30px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .birthday-card h1 {
+            color: #d4af37;
+            font-size: 3em;
+            margin-bottom: 25px;
+            animation: gentlePulse 3s ease infinite;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 20px rgba(212, 175, 55, 0.5);
+        }
+        
+        .birthday-message {
+            color: #f5e6d3;
+            line-height: 2;
+            font-size: 1.15em;
+            margin-bottom: 25px;
+            opacity: 0.95;
+        }
+        
+        .hearts {
+            font-size: 2.5em;
+            margin: 25px 0;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .wishes-section {
+            background: linear-gradient(135deg, rgba(74, 14, 14, 0.95), rgba(92, 15, 31, 0.95));
+            padding: 40px 35px;
+            border-radius: 25px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .wishes-section h2 {
+            color: #d4af37;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 2em;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.4);
+        }
+        
+        .edit-message-section {
+            background: linear-gradient(135deg, rgba(74, 14, 14, 0.95), rgba(92, 15, 31, 0.95));
+            padding: 40px 35px;
+            border-radius: 25px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            margin-bottom: 30px;
+        }
+        
+        .edit-message-section h2 {
+            color: #d4af37;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 2em;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.4);
+        }
+        
+        .edit-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            border-radius: 15px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.3);
+            color: #f5e6d3;
+            font-family: inherit;
+        }
+        
+        .edit-input::placeholder {
+            color: rgba(245, 230, 211, 0.5);
+        }
+        
+        .edit-input:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .edit-textarea {
+            width: 100%;
+            padding: 18px 20px;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            border-radius: 15px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 300px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.3);
+            color: #f5e6d3;
+            line-height: 1.8;
+        }
+        
+        .edit-textarea::placeholder {
+            color: rgba(245, 230, 211, 0.5);
+        }
+        
+        .edit-textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .save-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #7d1935, #9b2847);
+            color: #f5e6d3;
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: inherit;
+        }
+        
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            background: linear-gradient(135deg, #9b2847, #7d1935);
+        }
+        
+        .wish-input-area {
+            margin-bottom: 35px;
+        }
+        
+        .wish-input-area textarea {
+            width: 100%;
+            padding: 18px 20px;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            border-radius: 15px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 120px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.3);
+            color: #f5e6d3;
+        }
+        
+        .wish-input-area textarea::placeholder {
+            color: rgba(245, 230, 211, 0.5);
+        }
+        
+        .wish-input-area textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .wish-input-area button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #7d1935, #9b2847);
+            color: #f5e6d3;
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: inherit;
+        }
+        
+        .wish-input-area button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            background: linear-gradient(135deg, #9b2847, #7d1935);
+        }
+        
+        .wishes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .wish-item {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(125, 25, 53, 0.2));
+            padding: 25px;
+            border-radius: 18px;
+            border-left: 4px solid #d4af37;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .wish-text {
+            color: #f5e6d3;
+            line-height: 1.8;
+            font-style: italic;
+            font-size: 1.05em;
+            margin-bottom: 15px;
+        }
+        
+        .wish-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .wish-date {
+            color: rgba(245, 230, 211, 0.6);
+            font-size: 0.85em;
+        }
+        
+        .delete-btn {
+            background: linear-gradient(135deg, #8b0000, #660000);
+            color: #f5e6d3;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+        
+        .delete-btn:hover {
+            background: linear-gradient(135deg, #660000, #8b0000);
+            transform: scale(1.05);
+        }
+        
+        .no-wishes {
+            text-align: center;
+            color: rgba(245, 230, 211, 0.6);
+            padding: 50px 20px;
+            font-style: italic;
+            font-size: 1.1em;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes gentlePulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+        
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .birthday-card h1 {
+                font-size: 2em;
+            }
+            .countdown-item {
+                min-width: 70px;
+                padding: 15px;
+            }
+            .countdown-number {
+                font-size: 2em;
+            }
+            .lock-screen,
+            .birthday-card,
+            .wishes-section {
+                padding: 35px 25px;
+            }
+            .countdown-timer {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="bgMusic" loop>
+        <!-- Replace the URL below with your song URL -->
+        <source src="YOUR_SONG_URL_HERE.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="music-control" id="musicControl" onclick="toggleMusic()">
+        <svg id="playIcon" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+        </svg>
+        <svg id="pauseIcon" style="display:none;" viewBox="0 0 24 24">
+            <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+        </svg>
+    </div>
+
+    <div class="container">
+        <div class="countdown-timer" id="countdownTimer" style="display:none;">
+            <div class="countdown-title">Time Until Your Special Day</div>
+            <div class="countdown-display">
+                <div class="countdown-item">
+                    <span class="countdown-number" id="days">00</span>
+                    <span class="countdown-label">Days</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="hours">00</span>
+                    <span class="countdown-label">Hours</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="minutes">00</span>
+                    <span class="countdown-label">Minutes</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="seconds">00</span>
+                    <span class="countdown-label">Seconds</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="lock-screen" id="lockScreen">
+            <h1>✨ Enter ✨</h1>
+            <p>Enter the special code to unlock your birthday surprise</p>
+            <input type="text" id="passwordInput" placeholder="Enter password..." autocomplete="off">
+            <button onclick="checkPassword()">Unlock</button>
+            <div class="error-message" id="errorMessage">Wrong password</div>
+        </div>
+
+        <div class="main-content" id="mainContent">
+            <div class="edit-message-section" id="editSection" style="display:none;">
+                <h2>✏️ Edit Birthday Message</h2>
+                <input type="text" id="titleInput" class="edit-input" placeholder="Enter title (e.g., Happy Birthday, My Love)">
+                <textarea id="messageInput" class="edit-textarea" placeholder="Enter your birthday message here..."></textarea>
+                <button class="save-btn" onclick="saveMessage()">Save Message</button>
+            </div>
+
+            <div class="birthday-card">
+                <h1 id="birthdayTitle">Happy Birthday, My Love</h1>
+                <div class="hearts">💕 ✨ 💖</div>
+                <div class="birthday-message" id="birthdayMessage">
+                    <p>On this beautiful day, I want you to know that you are the most precious gift in my life. Every moment with you feels like a dream, and I am endlessly grateful for your love, your smile, and the light you bring into my world.</p>
+                    <br>
+                    <p>You deserve all the happiness, all the love, and all the magic that life has to offer. Today, we celebrate you—the incredible person you are and the beautiful soul that makes everything better.</p>
+                    <br>
+                    <p>I love you more than words could ever express, and I can't wait to make this birthday unforgettable. Here's to you, to us, and to forever. 🌹</p>
+                </div>
+                <div class="hearts">🎂 🎉 🎁</div>
+            </div>
+
+            <div class="wishes-section">
+                <h2>💌 Birthday Wishes</h2>
+                <div class="wish-input-area">
+                    <textarea id="wishInput" placeholder="Write your heartfelt birthday wish here... She'll try to guess who you are! 💕"></textarea>
+                    <button onclick="addWish()">Send Wish</button>
+                </div>
+                <div class="wishes-list" id="wishesList">
+                    <div class="no-wishes">No wishes yet. Be the first to send one! 💝</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const viewerPassword = '7/1/2006';
+        const adminPassword = '505';
+        let wishes = [];
+        let isAdmin = false;
+        let musicPlaying = false;
+        let isLoading = false;
+
+        const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwnEmBjKNHekKUyVH5ov_9FKnJZaifKro29PdZeeapSgjBMtR6vWXcDrOBHodCtvnxm/exec';
+
+        const targetDate = new Date('January 7, 2026 00:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById('countdownTimer').innerHTML = '<div class="countdown-title">🎉 Happy Birthday! 🎉</div>';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        function toggleMusic() {
+            const music = document.getElementById('bgMusic');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+
+            if (musicPlaying) {
+                music.pause();
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+                musicPlaying = false;
+            } else {
+                music.play();
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+                musicPlaying = true;
+            }
+        }
+
+        async function loadWishes() {
+            try {
+                isLoading = true;
+                displayWishes();
+
+                const response = await fetch(SHEET_URL);
+                const data = await response.json();
+
+                wishes = data.map(wish => ({
+                    id: wish.id,
+                    text: wish.text,
+                    date: wish.date
+                }));
+
+                isLoading = false;
+                displayWishes();
+            } catch (error) {
+                console.error('Error loading wishes:', error);
+                isLoading = false;
+                wishes = [];
+                displayWishes();
+            }
+        }
+
+        async function saveWish(wish) {
+            try {
+                const response = await fetch(SHEET_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(wish)
+                });
+
+                return true;
+            } catch (error) {
+                console.error('Error saving wish:', error);
+                alert('حدث خطأ أثناء حفظ الرسالة. حاول مرة أخرى.');
+                return false;
+            }
+        }
+
+        async function deleteWishFromStorage(id) {
+            alert('حذف الرسائل من Google Sheets يحتاج تعديل يدوي في الشيت نفسه.');
+            return false;
+        }
+
+        function checkPassword() {
+            const input = document.getElementById('passwordInput').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (input === viewerPassword || input === adminPassword) {
+                isAdmin = (input === adminPassword);
+                document.getElementById('lockScreen').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                document.getElementById('countdownTimer').style.display = 'block';
+
+                if (isAdmin) {
+                    document.getElementById('editSection').style.display = 'block';
+                    loadMessageContent();
+                }
+
+                loadWishes();
+                setInterval(updateCountdown, 1000);
+                updateCountdown();
+
+                setTimeout(() => {
+                    const music = document.getElementById('bgMusic');
+                    music.play().then(() => {
+                        musicPlaying = true;
+                        document.getElementById('playIcon').style.display = 'none';
+                        document.getElementById('pauseIcon').style.display = 'block';
+                    }).catch(() => {
+                        console.log('Autoplay prevented');
+                    });
+                }, 500);
+            } else {
+                errorMessage.style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        function saveMessage() {
+            const title = document.getElementById('titleInput').value.trim();
+            const message = document.getElementById('messageInput').value.trim();
+
+            if (title === '' || message === '') {
+                alert('Please fill in both the title and message! 💕');
+                return;
+            }
+
+            const messageData = {
+                title: title,
+                message: message
+            };
+
+            localStorage.setItem('birthdayMessageContent', JSON.stringify(messageData));
+            updateMessageDisplay();
+            alert('Message saved successfully! 💖');
+        }
+
+        function loadMessageContent() {
+            const stored = localStorage.getItem('birthdayMessageContent');
+            if (stored) {
+                const messageData = JSON.parse(stored);
+                document.getElementById('titleInput').value = messageData.title;
+                document.getElementById('messageInput').value = messageData.message;
+                updateMessageDisplay();
+            } else {
+                const defaultTitle = document.getElementById('birthdayTitle').textContent;
+                const defaultMessage = document.getElementById('birthdayMessage').innerHTML;
+                document.getElementById('titleInput').value = defaultTitle;
+                document.getElementById('messageInput').value = defaultMessage.replace(/<br>/g, '\n').replace(/<[^>]*>/g, '');
+            }
+        }
+
+        function updateMessageDisplay() {
+            const stored = localStorage.getItem('birthdayMessageContent');
+            if (stored) {
+                const messageData = JSON.parse(stored);
+                document.getElementById('birthdayTitle').textContent = messageData.title;
+                const formattedMessage = messageData.message.split('\n').map(para =>
+                    para.trim() ? `<p>${para}</p>` : '<br>'
+                ).join('');
+                document.getElementById('birthdayMessage').innerHTML = formattedMessage;
+            }
+        }
+
+        async function addWish() {
+            const wishInput = document.getElementById('wishInput');
+            const wishText = wishInput.value.trim();
+
+            if (wishText === '') {
+                alert('من فضلك اكتب رسالة قبل الإرسال! 💕');
+                return;
+            }
+
+            if (isLoading) {
+                alert('جاري التحميل... انتظر قليلاً');
+                return;
+            }
+
+            const wish = {
+                id: Date.now(),
+                text: wishText,
+                date: new Date().toLocaleString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })
+            };
+
+            const saved = await saveWish(wish);
+            if (saved) {
+                wishes.push(wish);
+                displayWishes();
+                wishInput.value = '';
+
+                wishInput.placeholder = 'تم الإرسال! 💖 جاري التحديث...';
+
+                setTimeout(() => {
+                    loadWishes();
+                    wishInput.placeholder = 'اكتب أمنيتك هنا... سوف تحاول تخمين من أنت! 💕';
+                }, 2000);
+            }
+        }
+
+        async function deleteWish(id) {
+            if (confirm('هل أنت متأكد من حذف هذه الرسالة؟')) {
+                const deleted = await deleteWishFromStorage(id);
+                if (deleted) {
+                    wishes = wishes.filter(wish => wish.id !== id);
+                    displayWishes();
+                }
+            }
+        }
+
+        function displayWishes() {
+            const wishesList = document.getElementById('wishesList');
+
+            if (isLoading) {
+                wishesList.innerHTML = '<div class="no-wishes">جاري تحميل الرسائل... ⏳</div>';
+                return;
+            }
+
+            if (wishes.length === 0) {
+                wishesList.innerHTML = '<div class="no-wishes">لا توجد رسائل بعد. كن أول من يرسل! 💝</div>';
+                return;
+            }
+
+            wishesList.innerHTML = wishes.map(wish => `
+                <div class="wish-item">
+                    <div class="wish-text">"${wish.text}"</div>
+                    <div class="wish-footer">
+                        <div class="wish-date">${wish.date}</div>
+                        ${isAdmin ? `<button class="delete-btn" onclick="deleteWish(${wish.id})">حذف</button>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        document.getElementById('bgMusic').volume = 0.4;
+
+        window.addEventListener('load', function() {
+            updateMessageDisplay();
+        });
+    </script>
+</body>
+
+</html>
